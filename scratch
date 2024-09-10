@@ -1,8 +1,0 @@
-build-essential
-libssl-dev
-cmake
-m4
-zlib1g-dev
-wget
-python-dev
-pkg-config
