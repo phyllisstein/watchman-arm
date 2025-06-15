@@ -1,0 +1,13 @@
+FROM phyllisstein/watchman:v2024.08.26.00 AS watchman
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Watchman Run ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+FROM ubuntu:22.04
+
+COPY --from=watchman /usr/local/bin/ /usr/local/bin/
+COPY --from=watchman /usr/local/lib/ /usr/local/lib/
+
+RUN mkdir -p /usr/local/var/run/watchman \
+  && chmod 2777 /usr/local/var/run/watchman
+
+CMD ["/usr/local/bin/watchman", "--version"]
