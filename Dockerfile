@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Watchman Build ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 FROM ubuntu:22.04 AS builder
 
-ENV WATCHMAN_VERSION="2024.08.26.00"
+ARG WATCHMAN_VERSION="2025.05.19.00"
 
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
