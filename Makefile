@@ -1,5 +1,5 @@
 IMAGE_NAME=phyllisstein/watchman
-TAG=v2025.05.19.00
+TAG=v2026.03.02.00
 
 .PHONY: all manifest push build
 
