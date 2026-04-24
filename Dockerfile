@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Watchman Build ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 FROM ubuntu:24.04 AS builder
 
-ARG WATCHMAN_VERSION="2026.03.02.00"
+ARG WATCHMAN_VERSION
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
@@ -43,5 +43,3 @@ FROM ubuntu:24.04 AS watchman
 
 COPY --from=builder /tmp/watchman/built/bin/ /usr/local/bin/
 COPY --from=builder /tmp/watchman/built/lib /usr/local/lib/
-
-RUN mkdir -p /usr/local/var/run/watchman
