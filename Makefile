@@ -1,9 +1,9 @@
 IMAGE_NAME=phyllisstein/watchman
 TAG=v2026.03.02.00
 
-.PHONY: all manifest push build
+.PHONY: all build build-amd64 build-arm64 push push-amd64 push-arm64 push-all manifest
 
-all: manifest push
+all: build push-all
 
 build-amd64:
 	docker buildx build --platform linux/amd64 -t $(IMAGE_NAME):$(TAG)-amd64 --load .
@@ -23,15 +23,12 @@ push-arm64:
 	docker push $(IMAGE_NAME):$(TAG)-arm64
 	docker push $(IMAGE_NAME):latest-arm64
 
-push: push-amd64 push-arm64
-	docker push $(IMAGE_NAME):$(TAG)
-	docker push $(IMAGE_NAME):latest
-
-manifest: build
+manifest:
 	docker buildx imagetools create -t $(IMAGE_NAME):$(TAG) \
 		$(IMAGE_NAME):$(TAG)-amd64 \
 		$(IMAGE_NAME):$(TAG)-arm64
-
 	docker buildx imagetools create -t $(IMAGE_NAME):latest \
 		$(IMAGE_NAME):$(TAG)-amd64 \
 		$(IMAGE_NAME):$(TAG)-arm64
+
+push-all: push-amd64 push-arm64 manifest
