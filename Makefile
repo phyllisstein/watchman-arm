@@ -7,11 +7,11 @@ TAG=v$(WATCHMAN_VERSION)
 all: build push-all
 
 build-amd64:
-	docker buildx build --progress=plain --platform linux/amd64 -t $(IMAGE_NAME):$(TAG)-amd64 --build-arg WATCHMAN_VERSION=$(WATCHMAN_VERSION) --load .
+	docker buildx build --platform linux/amd64 -t $(IMAGE_NAME):$(TAG)-amd64 --build-arg WATCHMAN_VERSION=$(WATCHMAN_VERSION) --load .
 	docker tag $(IMAGE_NAME):$(TAG)-amd64 $(IMAGE_NAME):latest-amd64
 
 build-arm64:
-	docker buildx build --progress=plain --platform linux/arm64 -t $(IMAGE_NAME):$(TAG)-arm64 --build-arg WATCHMAN_VERSION=$(WATCHMAN_VERSION) --load .
+	docker buildx build --platform linux/arm64 -t $(IMAGE_NAME):$(TAG)-arm64 --build-arg WATCHMAN_VERSION=$(WATCHMAN_VERSION) --load .
 	docker tag $(IMAGE_NAME):$(TAG)-arm64 $(IMAGE_NAME):latest-arm64
 
 build: build-amd64 build-arm64
