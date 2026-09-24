@@ -1,5 +1,5 @@
 IMAGE_NAME=phyllisstein/watchman
-WATCHMAN_VERSION=2026.03.02.00
+WATCHMAN_VERSION ?= 2026.07.27.00
 TAG=v$(WATCHMAN_VERSION)
 
 .PHONY: all build build-amd64 build-arm64 push push-amd64 push-arm64 push-all manifest
