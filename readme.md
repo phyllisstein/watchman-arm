@@ -10,7 +10,7 @@ Use this Watchman container as the base for the workload it enables: copy the bi
 FROM phyllisstein/watchman:v2026.03.02.00 AS watchman
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ App ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-FROM ubuntu:24.04 AS app
+FROM ubuntu:26.04 AS app
 
 COPY --from=watchman /usr/local/bin/* /usr/local/bin/
 COPY --from=watchman /usr/local/lib/* /usr/local/lib/

@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Watchman Build ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
@@ -48,6 +48,12 @@ RUN wget "https://github.com/facebook/watchman/archive/v${WATCHMAN_VERSION}.tar.
         CMakeLists.txt \
     && [ "$(grep -c 'EXCLUDE_FROM_ALL' CMakeLists.txt)" -eq 2 ]
 
+# GCC 15 defaults to C23, where `f()` means no parameters; libunwind's tests
+# (built regardless of --no-tests) rely on the old unprototyped meaning.
+ENV CFLAGS="-std=gnu17"
+# CMake 4 rejects cmake_minimum_required() below 3.5, which cpptoml declares.
+ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
+
 # What autogen.sh does, one project per layer. Every call must pass identical
 # flags: they feed the per-project hash stored in .built-by-getdeps, and a
 # matching hash is what lets later layers skip projects built by earlier ones.
@@ -69,7 +75,7 @@ RUN $GETDEPS fixup-dyn-deps $GETDEPS_FLAGS --final-install-prefix /usr/local wat
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Watchman Binaries ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-FROM ubuntu:24.04 AS watchman
+FROM ubuntu:26.04 AS watchman
 
 COPY --from=builder /tmp/watchman/built/bin/ /usr/local/bin/
 COPY --from=builder /tmp/watchman/built/lib /usr/local/lib/
